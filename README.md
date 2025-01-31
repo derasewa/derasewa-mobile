@@ -11,7 +11,7 @@ This repository contains the main android application code of the DeraSewa, deve
 
 ### Prerequisites
 - Android Studio
-- Java Development Kit (JDKSE 23)
+- Java Development Kit (JDK SE 23)
 
 ## Getting Started
 
