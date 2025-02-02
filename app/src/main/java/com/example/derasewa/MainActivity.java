@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("userPrefs", Context.MODE_PRIVATE);
         isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
         if (!isLoggedIn) {
