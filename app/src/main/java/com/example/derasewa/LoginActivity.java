@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText passwordInput;
     TextView errorMessage;
     TextView registerNowLink;
+    TextView forgotPasswordLink;
 
     private final OkHttpClient client = new OkHttpClient();
 
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         errorMessage = findViewById(R.id.error_message);
         registerNowLink = findViewById(R.id.register_now_link);
+        forgotPasswordLink = findViewById(R.id.forgot_password_link);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +74,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
                 startActivity(intent);
                 finish();
             }

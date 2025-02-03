@@ -62,6 +62,10 @@ public class OtpVerificationActivity extends AppCompatActivity {
                     boolean usingReferralCode = intent.getBooleanExtra("usingReferralCode", false);
                     String referralCode = intent.getStringExtra("referralCode");
                     verifyOtpForAccountRegistration(firstName, lastName, email, password, otp, usingReferralCode, referralCode);
+                } else if ("change-password".equals(type)) {
+                    String email = intent.getStringExtra("email");
+                    String newPassword = intent.getStringExtra("newPassword");
+                    verifyOtpForPasswordChange(email, newPassword, otp);
                 }
             }
         });
@@ -82,6 +86,70 @@ public class OtpVerificationActivity extends AppCompatActivity {
         RequestBody body = RequestBody.Companion.create(jsonString, JSON);
         Request request = new Request.Builder()
                 .url(BuildConfig.SERVER_IP + "/register-user-account") // Replace with your actual API endpoint
+                .addHeader("x-api-key", BuildConfig.API_KEY) // Ensure API key is set correctly
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> {
+                    errorMessage.setText("OTP verification failed: " + e.getMessage());
+                    errorMessage.setVisibility(View.VISIBLE);
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+
+                try {
+                    JsonElement jsonElement = JsonParser.parseString(responseBody);
+                    if (jsonElement.isJsonObject()) {
+                        JsonObject responseJson = jsonElement.getAsJsonObject();
+                        String type = responseJson.has("type") ? responseJson.get("type").getAsString() : "error";
+                        String message = responseJson.has("message") ? responseJson.get("message").getAsString() : "Unknown error";
+
+                        if (response.isSuccessful() && "success".equals(type)) {
+                            runOnUiThread(() -> {
+                                Toast.makeText(OtpVerificationActivity.this, message, Toast.LENGTH_SHORT).show();
+                                errorMessage.setVisibility(View.GONE);
+                                // Redirect to login or main activity
+                                Intent intent = new Intent(OtpVerificationActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            });
+                        } else {
+                            runOnUiThread(() -> {
+                                errorMessage.setText("OTP verification failed: " + message);
+                                errorMessage.setVisibility(View.VISIBLE);
+                            });
+                        }
+                    } else {
+                        throw new JsonSyntaxException("Expected a JsonObject but was " + jsonElement.getClass());
+                    }
+                } catch (JsonSyntaxException e) {
+                    Log.e("OtpVerificationActivity", "Error parsing JSON", e);
+                    runOnUiThread(() -> {
+                        errorMessage.setText("OTP verification failed: Invalid server response");
+                        errorMessage.setVisibility(View.VISIBLE);
+                    });
+                }
+            }
+        });
+    }
+
+    private void verifyOtpForPasswordChange(String email, String newPassword, String otp) {
+        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("email", email);
+        jsonObject.addProperty("newPassword", newPassword);
+        jsonObject.addProperty("otp", otp);
+        String jsonString = gson.toJson(jsonObject);
+
+        RequestBody body = RequestBody.Companion.create(jsonString, JSON);
+        Request request = new Request.Builder()
+                .url(BuildConfig.SERVER_IP + "/change-password")
                 .addHeader("x-api-key", BuildConfig.API_KEY) // Ensure API key is set correctly
                 .post(body)
                 .build();
