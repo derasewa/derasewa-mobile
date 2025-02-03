@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/title_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title" />
+
+    <RadioGroup
+        android:id="@+id/type_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:id="@+id/type_flat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Flat" />
+
+        <RadioButton
+            android:id="@+id/type_apartment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apartment" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/number_of_rooms_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Number of Rooms"
+        android:inputType="number"
+        android:layout_marginTop="16dp" />
+
+    <CheckBox
+        android:id="@+id/has_bedroom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Has Bedroom"
+        android:layout_marginTop="16dp" />
+
+    <CheckBox
+        android:id="@+id/has_kitchen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Has Kitchen"
+        android:layout_marginTop="16dp" />
+
+    <CheckBox
+        android:id="@+id/has_bathroom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Has Bathroom"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:visibility="gone"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

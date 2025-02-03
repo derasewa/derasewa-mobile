@@ -47,6 +47,8 @@ dependencies {
     implementation libs.foundation.android
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
+    implementation libs.commons.io // Base64 Apache
+    implementation libs.osmdroid.android.v6110
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
